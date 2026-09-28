@@ -97,3 +97,57 @@ skillBadges.forEach(function(badge) {
             });
 
 });
+
+const blogPosts = [
+    {
+        title: "What I Did While in New York in September",
+        date: "2026-09-20",
+        category: "Exploring",
+        description: "A look into my exploration of the Big Apple.",
+        link: "#"
+    },
+    {
+        title: "Getting Started with SwiftUI",
+        date: "2026-09-10",
+        category: "Development",
+        description: "Why I chose SwiftUI and how I'm implementing it.",
+        link: "blog/getting-started-with-swiftui.html"
+    },
+    {
+        title: "Building My Portfolio Website",
+        date: "2026-09-01",
+        category: "Learning",
+        description: "What I'm learning while creating my developer portfolio.",
+        link: "#"
+    },
+    {
+        title: "What I Did While in New York in August",
+        date: "2026-08-01",
+        category: "Learning",
+        description: "What I'm learning while creating my developer portfolio.",
+        link: "#"
+    }
+];
+
+const sortedPosts = [...blogPosts].sort(function(a, b) {
+    return new Date(b.date) - new Date(a.date);
+});
+
+const latestPosts = sortedPosts.slice(0, 4);
+
+function createBlogCard(post) {
+    return `
+        <article class="blog-card">
+            <span class="meta-tag">${post.category}</span>
+            <h3>${post.title}</h3>
+            <p>${post.description}</p>
+            <a href="${post.link}">Read more →</a>
+        </article>
+    `;
+}
+
+const blogContainer = document.querySelector("#blog-container");
+
+latestPosts.forEach(function(post) {
+    blogContainer.innerHTML += createBlogCard(post);
+});
