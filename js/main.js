@@ -1,5 +1,5 @@
 import { blogPosts } from "./blog-data.js";
-import { createBlogCard, sortPosts, formatDate } from "./blog-utils.js";
+import { renderPosts, sortPosts } from "./blog-utils.js";
 
 const projectsButton = document.querySelector("#projects-button");
 const projectsSection = document.querySelector("#projects");
@@ -10,6 +10,7 @@ const skillBadges = document.querySelectorAll(".skill-badge");
 const skillDescription = document.querySelector(".skill-description");
 const skillName = document.querySelector("#skill-name");
 const skillText = document.querySelector("#skill-text");
+const blogContainer = document.querySelector("#blog-container");
 
 const skillInfo = {
     cpp: {
@@ -35,6 +36,7 @@ const skillInfo = {
 
 function scrollToSection(section) {
     if (!section) return;
+
     section.scrollIntoView({
         behavior: "smooth",
         block: "start"
@@ -51,7 +53,9 @@ if (projectsButton && projectsSection) {
 navLinks.forEach(function(link) {
     link.addEventListener("click", function(event) {
         const targetId = link.getAttribute("href");
-        const targetSection = targetId ? document.querySelector(targetId) : null;
+        const targetSection = targetId
+            ? document.querySelector(targetId)
+            : null;
 
         if (!targetSection) return;
 
@@ -66,12 +70,18 @@ if (filterButtons.length && projectCards.length) {
             const selectedFilter = button.dataset.filter;
 
             filterButtons.forEach(function(filterButton) {
-                filterButton.classList.toggle("active", filterButton === button);
+                filterButton.classList.toggle(
+                    "active",
+                    filterButton === button
+                );
             });
 
             projectCards.forEach(function(card) {
                 const technologies = card.dataset.technologies || "";
-                const matches = selectedFilter === "all" || technologies.includes(selectedFilter);
+                const matches =
+                    selectedFilter === "all" ||
+                    technologies.includes(selectedFilter);
+
                 card.classList.toggle("hidden", !matches);
             });
         });
@@ -97,16 +107,13 @@ skillBadges.forEach(function(badge) {
 
         skillName.textContent = "▶ " + skill.name;
         skillText.textContent = skill.description;
-            });
-
+    });
 });
 
-const sortedPosts = sortPosts(blogPosts);
+if (blogContainer) {
+    const sortedPosts = sortPosts(blogPosts);
+    const latestPosts = sortedPosts.slice(0, 3);
 
-const latestPosts = sortedPosts.slice(0, 3);
+    blogContainer.innerHTML = renderPosts(latestPosts);
 
-const blogContainer = document.querySelector("#blog-container");
-
-latestPosts.forEach(function(post) {
-    blogContainer.innerHTML += createBlogCard(post);
-});
+}

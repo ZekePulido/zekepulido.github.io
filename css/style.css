@@ -935,6 +935,36 @@ button {
     font-size: 0.85rem;
 }
 
+.blog-filters {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin: 32px 0;
+    flex-wrap: wrap;
+}
+
+.blog-filter {
+    padding: 10px 18px;
+    background: var(--surface);
+    border: 2px solid var(--line);
+    color: var(--muted);
+    font-family: "Press Start 2P", monospace;
+    font-size: 0.55rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.blog-filter:hover {
+    border-color: #6390F0;
+    color: #6390F0;
+}
+
+.blog-filter.active {
+    background: #6390F0;
+    border-color: #6390F0;
+    color: #ffffff;
+}
+
 @media (max-width: 900px) {
     .about-grid,
     .projects-container,

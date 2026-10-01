@@ -1,10 +1,32 @@
-import { blogPosts,} from "./blog-data.js";
-import { createBlogCard, sortPosts } from "./blog-utils.js";
+import { blogPosts } from "./blog-data.js";
+import { renderPosts, sortPosts } from "./blog-utils.js";
 
 const blogContainer = document.querySelector("#blog-container");
+const filterButtons = document.querySelectorAll(".blog-filter");
 
-const sortedPosts = sortPosts(blogPosts);
+blogContainer.innerHTML = renderPosts(blogPosts);
 
-sortedPosts.forEach(function(post) {
-    blogContainer.innerHTML += createBlogCard(post);
+filterButtons.forEach(function(button) {
+    button.addEventListener("click", function() {
+        const selectedCategory = button.dataset.category;
+
+        filterButtons.forEach(function(filterButton) {
+            filterButton.classList.toggle(
+                "active",
+                filterButton === button
+            );
+        });
+
+        let filteredPosts;
+
+        if (selectedCategory === "all") {
+            filteredPosts = blogPosts;
+        } else {
+            filteredPosts = blogPosts.filter(function(post) {
+                return post.category === selectedCategory;
+            });
+        }
+        const sortedPosts = sortPosts(filteredPosts);
+        blogContainer.innerHTML = renderPosts(sortedPosts);
+    });
 });

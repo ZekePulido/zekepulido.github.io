@@ -25,3 +25,13 @@ export function formatDate(date) {
         day: "numeric"
     });
 }
+
+export function renderPosts(posts) {
+    const blogCards = posts.map(function(post) {
+        return createBlogCard(post);
+    });
+
+    const blogHTML = blogCards.join("");
+
+    return blogHTML;
+}
